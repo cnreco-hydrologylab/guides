@@ -94,6 +94,67 @@ You can use standard bash syntax when working on git.
     ```
     git push -u origin main
     ```
+
+
+**Setting up multiple accounts**
+To set up multiple GitHub accounts on your local laptop and access repositories via the command line using Git, you need to follow these steps:
+
+1. **Generate SSH Keys for Each Account**:
+   - Use `ssh-keygen` to create an SSH key for each GitHub account. For example:
+     ```bash
+     ssh-keygen -t rsa -b 4096 -C "your-email@example.com"
+     ```
+   - Save each key with a unique name in the `~/.ssh/` directory, such as `id_rsa_account1`, `id_rsa_account2`, etc...
+
+2. **Add SSH Keys to GitHub**:
+   - Log into each GitHub account and navigate to "Settings" > "SSH and GPG keys".
+   - Click on "New SSH key", paste the public key content from the corresponding `.pub` file, and save it.
+
+3. **Create or Modify the SSH Configuration File**:
+   - Create or edit the `~/.ssh/config` file to define host aliases for each GitHub account. For example:
+     ```
+     # Account 1
+     Host github.com-account1
+     HostName github.com
+     User git
+     IdentityFile ~/.ssh/id_rsa_account1
+
+     # Account 2
+     Host github.com-account2
+     HostName github.com
+     User git
+     IdentityFile ~/.ssh/id_rsa_account2
+     ```
+   - Replace `account1` and `account2` with identifiers for your GitHub accounts.
+   - PAY ATTENTION: the name of the user "git" should stay like that and not be substituted with the user name of your account.
+
+4. **Clone Repositories and Set Up Remote Origin**:
+   - Use the `git clone` command with the appropriate host alias to clone repositories for each account. For example:
+     ```bash
+     git clone git@github.com-account1:user1/repo-name.git
+     ```
+   - To update the remote origin URL for an existing repository, use:
+     ```bash
+     git remote set-url origin git@github.com-account1:user1/repo-name.git
+     ```
+   - Verify the remote origin URL with `git remote -v`.
+
+5. **Configure User Attributes Locally**:
+   - Navigate to the repository directory and configure the local Git user name and email for commits to match the respective GitHub account. For example:
+     ```bash
+     git config user.name "Your Name"
+     git config user.email "your-email@example.com"
+     ```
+   - This step ensures that commits are attributed to the correct user for each repository.
+
+6. **Test SSH Connection**:
+   - Test your SSH connection to GitHub to ensure that authentication works correctly. For example:
+     ```bash
+     ssh -T git@github.com-account1
+     ```
+   - You should receive a message indicating successful authentication.
+
+By following these steps, you can manage multiple GitHub accounts on the same laptop and perform Git operations such as clone, push, and pull with the correct account credentials. Remember to replace placeholders like `your-email@example.com`, `account1`, `user1`, and `repo-name` with your actual email addresses, account identifiers, usernames, and repository names.
     
 
 ### For Windows
