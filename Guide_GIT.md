@@ -65,41 +65,52 @@ You can use standard bash syntax when working on git.
 2. Generate an SSH key pair or create a personal access token for authentication.
 3. Add the SSH key to your GitHub account settings.
 4. Configure Git with your username and email:
+
+	For local configuration (multiple accounts, RECOMMENDED)
+    ```
+    git config user.name "Your Name"
+    git config User.email "your_email@example.com"
+    ```
     
+	For global configuration (1 account only, NOT RECOMMENDED)
     ```
     git config --global user.name "Your Name"
     git config --global user.email "your_email@example.com"
     ```
     
+    For checking all available configurations:
+    ```
+    git config --list
+    ```
+    
 5. Create a new repository on GitHub.
 6. Initialize a local Git repository using `git init`.
 7. Add the remote GitHub repository:
-    
     ```
-    git remote add origin [email protected]:username/repository.git
+    git remote add origin <your_email@example.com>:username/repository.git
     ```
     
 8. Push your changes to GitHub:
-    
     ```
-    git push -u origin master
+    git push -u origin main
     ```
     
 
 ### For Windows
 
-### Installing Git on Windows
+**Installing Git on Windows**
 
 1. Download the latest Git for Windows installer.
 2. Run the installer and follow the setup wizard, choosing the default options or customizing as needed.
 3. Verify the installation by opening the command prompt and typing `git --version`.
 
-### Connecting to GitHub
+**Connecting to GitHub**
 
 1. Follow the same steps as for Linux to create a GitHub account, generate an SSH key or personal access token, and add it to your GitHub account.
 2. Configure Git with your username and email as shown above.
 3. Create a new repository on GitHub.
 4. Initialize a local Git repository, add the remote GitHub repository, and push your changes as described in the Linux section.
+
 
 ### Additional Tips
 
@@ -137,16 +148,17 @@ Just create a file as you would normally do.
     - `-pretty=<option>`: changes the log output format to something *prettier* than default. <options> are `oneline`,`short`, `full`, `fuller`.
 - you can create a `tag` on a commit to mark a given version of your source code
 
-### Workflow:
+### Workflow for already existing repo already set to remote:
 
 ```
-> git init repo #create repository repo
-> cd ./repo
-> echo "Hello World!" > README.md
-> git add README.md # add newly created file to repo
-> git commit -m "Created fake README file"
-> git show # to check if all ok
-
+> git fetch  # check changes in main remote repository
+> git status # check status of repository - should tell you if something is conflicting 
+> git pull   # eventually pull changes from remote to local 
+> git add .  # add all changes done to files
+> git commit -m "your commit message"
+> git status # check all's ok
+> git show   # to check if all ok
+> git push   # push to remote
 ```
 
 ## 4. Branching
@@ -177,7 +189,7 @@ To push a local repo to remote on GitHub, the simplest way is:
 - be sure that the local repo is empty or at most contains just a REAMDE
 - create a new EMPTY repo on GitHub, with the same name of your local folder
 - `git remote add upstream <your_repo_url>`
-- `git push upstream master` with eventual flag -f for push if you've created a README in the local repo.
+- `git push upstream main` with eventual flag -f for push if you've created a README in the local repo.
 
 If your new branch was created locally and doesn't have a remote equivalent, use `git push --set-upstream origin <branch>` where you could also substitute the --set... flag with -u
 
