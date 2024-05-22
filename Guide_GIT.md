@@ -82,19 +82,18 @@ You can use standard bash syntax when working on git.
     ```
     git config --list
     ```
-    
-5. Create a new repository on GitHub.
-6. Initialize a local Git repository using `git init`.
-7. Add the remote GitHub repository:
-    ```
-    git remote add origin <your_email@example.com>:username/repository.git
-    ```
-    
-8. Push your changes to GitHub:
-    ```
-    git push -u origin main
-    ```
 
+5. [If you don't have local repositories yet...] Create a new repository on GitHub, empty: no README, no .gitignore, no license.
+6. Initialize a local Git repository using `git init`. You can also personalize the name of the branch by `git init -b <branch-name>`, e.g. `git init -b server_branch`. Default is `git init -b main`.
+7. Add your files with `git add .` and commit them `git commit -m "first commit"`.
+8. Add the remote GitHub repository: go to the GitHub repository and copy the https url, then in your local git folder:
+    ```
+    git remote add origin <remote-url>
+    ```
+9. Push your changes to GitHub:
+    ```
+    git push origin <branch-name>
+    ```
 
 **Setting up multiple accounts**
 To set up multiple GitHub accounts on your local laptop and access repositories via the command line using Git, you need to follow these steps:
