@@ -61,7 +61,7 @@ You can use standard bash syntax when working on git.
 
 ### Connecting to GitHub
 
-Note: this procedure works if connecting with SSH, on your local machine, or a server. This means that the URL which you will use from now on for cloning and also for setting the remote origin is found in the "SSH" option of <Code> in GitHub, not the HTTPS.
+Note: this procedure works if connecting with SSH, on your local machine, or a server. This means that the URL which you will use from now on for cloning and also for setting the remote origin is found in the SSH option of <Code> in GitHub, not the HTTPS.
 
 1. Create a GitHub account if you don't have one.
 2. Generate an SSH key pair (or create a personal access token for authentication, which you can own indipendently of your SSH key).
@@ -86,7 +86,7 @@ Note: this procedure works if connecting with SSH, on your local machine, or a s
     git config --list
     ```
 
-5. [If you don't have local repositories yet...] Create a new repository on GitHub, empty: no README, no .gitignore, no license.
+5. (If you don't have local repositories yet...) Create a new repository on GitHub, empty: no README, no .gitignore, no license.
 6. Initialize a local Git repository using `git init`. You can also personalize the name of the branch by `git init -b <branch-name>`, e.g. `git init -b server_branch`. Default is `git init -b main`.
 7. Add your files with `git add .` and commit them `git commit -m "first commit"`.
 8. Add the remote GitHub repository: go to the GitHub repository and copy the https url, then in your local git folder:
@@ -103,7 +103,7 @@ To set up multiple GitHub accounts on your local laptop and access repositories 
 
 1. **Generate SSH Keys for Each Account**:
    - Use `ssh-keygen` to create an SSH key for each GitHub account. For example:
-     ```bash
+     ```
      ssh-keygen -t rsa -b 4096 -C "your-email@example.com"
      ```
    - Save each key with a unique name in the `~/.ssh/` directory, such as `id_rsa_account1`, `id_rsa_account2`, etc...
@@ -137,18 +137,18 @@ To set up multiple GitHub accounts on your local laptop and access repositories 
 
 4. **Clone Repositories and Set Up Remote Origin**:
    - Use the `git clone` command with the appropriate host alias to clone repositories for each account. For example:
-     ```bash
+     ```
      git clone git@github.com-account1:user1/repo-name.git
      ```
    - To update the remote origin URL for an existing repository, use:
-     ```bash
+     ```
      git remote set-url origin git@github.com-account1:user1/repo-name.git
      ```
    - Verify the remote origin URL with `git remote -v`.
 
 5. **Configure User Attributes Locally**:
    - Navigate to the repository directory and configure the local Git user name and email for commits to match the respective GitHub account. For example:
-     ```bash
+     ```
      git config user.name "Your Name"
      git config user.email "your-email@example.com"
      ```
@@ -156,12 +156,23 @@ To set up multiple GitHub accounts on your local laptop and access repositories 
 
 6. **Test SSH Connection**:
    - Test your SSH connection to GitHub to ensure that authentication works correctly. For example:
-     ```bash
+     ```
      ssh -T git@github.com-account1
      ```
-   - You should receive a message indicating successful authentication.
+   - You should receive a message indicating successful authentication: "Hi <user>! You've successfully authenticated, but GitHub does not provide shell access."
 
 By following these steps, you can manage multiple GitHub accounts on the same laptop and perform Git operations such as clone, push, and pull with the correct account credentials. Remember to replace placeholders like `your-email@example.com`, `account1`, `user1`, and `repo-name` with your actual email addresses, account identifiers, usernames, and repository names.
+
+7. **Make sure you are connecting via SSH and not HTTPS**:
+	Sometimes, you clone the repository via HTTPS and then it fails to connect you when trying to link it with an SSH key, and asks for authentication nevertheless. If you already followed all the steps above, go on, or do the previous steps after checking for the tipe of connetion that you have.
+	- Check which connection do you have: HTTPS protocol starts with https://github.com, whilst SSH is git@github.com: (server)
+	```
+    git remote -v
+    ```
+    - Set the SSH origin
+    ```
+    git remote set-url origin git@github.com:<user>/<repository>.git
+    ```
     
 
 ### For Windows
@@ -292,7 +303,7 @@ You can open issues on your code to remind yourselves of things to do.
 
 Issues can be closed even automatically by committing “Closed #number” where #number is the reference to the issue that you have opened in Github. 
 
-```bash
+```
 git commit -m "Closed #1"
 ```
 
