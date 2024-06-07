@@ -61,8 +61,11 @@ You can use standard bash syntax when working on git.
 
 ### Connecting to GitHub
 
+Note: this procedure works if connecting with SSH, on your local machine, or a server. This means that the URL which you will use from now on for cloning and also for setting the remote origin is found in the "SSH" option of <Code> in GitHub, not the HTTPS.
+
 1. Create a GitHub account if you don't have one.
-2. Generate an SSH key pair or create a personal access token for authentication.
+2. Generate an SSH key pair (or create a personal access token for authentication, which you can own indipendently of your SSH key).
+	(see below: **Setting up SSH connection...** 
 3. Add the SSH key to your GitHub account settings.
 4. Configure Git with your username and email:
 
@@ -72,7 +75,7 @@ You can use standard bash syntax when working on git.
     git config User.email "your_email@example.com"
     ```
     
-	For global configuration (1 account only, NOT RECOMMENDED)
+	For global configuration (1 account only for all repositories, NOT RECOMMENDED)
     ```
     git config --global user.name "Your Name"
     git config --global user.email "your_email@example.com"
@@ -95,7 +98,7 @@ You can use standard bash syntax when working on git.
     git push origin <branch-name>
     ```
 
-**Setting up multiple accounts**
+**Setting up SSH connection and multiple accounts**
 To set up multiple GitHub accounts on your local laptop and access repositories via the command line using Git, you need to follow these steps:
 
 1. **Generate SSH Keys for Each Account**:
@@ -104,6 +107,11 @@ To set up multiple GitHub accounts on your local laptop and access repositories 
      ssh-keygen -t rsa -b 4096 -C "your-email@example.com"
      ```
    - Save each key with a unique name in the `~/.ssh/` directory, such as `id_rsa_account1`, `id_rsa_account2`, etc...
+   - Eventually add to the forward agent:
+   	 ```
+   	 eval "$(ssh-agent -s)" #check that it works
+   	 ssh-add ~/.ssh/id_rsa_account1
+   	 ```
 
 2. **Add SSH Keys to GitHub**:
    - Log into each GitHub account and navigate to "Settings" > "SSH and GPG keys".
@@ -124,7 +132,7 @@ To set up multiple GitHub accounts on your local laptop and access repositories 
      User git
      IdentityFile ~/.ssh/id_rsa_account2
      ```
-   - Replace `account1` and `account2` with identifiers for your GitHub accounts.
+   - Eventually replace `account1` and `account2` with identifiers for your GitHub accounts.
    - PAY ATTENTION: the name of the user "git" should stay like that and not be substituted with the user name of your account.
 
 4. **Clone Repositories and Set Up Remote Origin**:
