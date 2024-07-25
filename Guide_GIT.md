@@ -313,7 +313,7 @@ When you want to merge a branch on a main, you can open a pull request. Mainly u
 
 ---
 
-## Debugging
+## Troubleshooting
 
 ### can't add files to repo due to permissions' restrictions
 
@@ -331,3 +331,81 @@ fatal: adding files failed
 # Cheatsheet
 
 [https://ndpsoftware.com/git-cheatsheet.html#loc=index](https://ndpsoftware.com/git-cheatsheet.html#loc=index)
+
+
+### ssh and authentication fails
+
+**Problem 1: Wrong GitHub account being used**
+
+**Issue:** Git was using the credentials for the `cnreco-hydrologylab` account instead of `martina01natali`.
+
+**Cause:** SSH agent was offering keys in alphabetical order, and `cnreco-hydrologylab` was being accepted first.
+
+**Solution:** 
+1. Edit `~/.ssh/config`
+2. Set the `Host` for `user` to `github.com`
+3. Set a different `Host` (e.g., `github.com-user2`) for the `user2` account
+
+Example configuration:
+```
+Host github.com
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/id_rsa_user
+
+Host github.com-user2
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/id_rsa_user2
+```
+
+**Problem 2: SSH key already in use**
+
+**Issue:** Attempting to add an SSH key that was already associated with another account.
+
+**Solution:**
+1. Generate a new SSH key for each GitHub account
+2. Add each new key to the respective GitHub account
+3. Update the SSH config file to use the correct key for each account
+
+### General Troubleshooting Steps
+
+1. **Check SSH Connection:**
+   ```
+   ssh -vT git@github.com
+   ```
+   This shows which keys are being offered and which one is accepted.
+
+2. **List SSH Keys in Agent:**
+   ```
+   ssh-add -l
+   ```
+   Shows all keys currently loaded in the SSH agent.
+
+3. **Add Specific Key to Agent:**
+   ```
+   ssh-add ~/.ssh/id_rsa_specific_account
+   ```
+
+4. **Update Git Remote URL:**
+   ```
+   git remote set-url origin git@github.com:username/repository.git
+   ```
+   Ensures the correct GitHub account is being used for the repository.
+
+5. **Check Git Configuration:**
+   ```
+   git config user.name
+   git config user.email
+   ```
+   Verifies the correct user information is set for the repository.
+
+**Best Practices**
+
+1. Use different SSH keys for different GitHub accounts
+2. Name SSH keys clearly (e.g., `id_rsa_personal`, `id_rsa_work`)
+3. Use the SSH config file to manage multiple accounts
+4. Regularly review and clean up SSH keys in your GitHub settings
+5. Use `ssh -vT` for verbose output when troubleshooting
+
+By following these steps and best practices, you can more easily manage multiple GitHub accounts and avoid authentication issues in the future.
